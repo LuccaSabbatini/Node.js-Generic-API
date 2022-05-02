@@ -60,8 +60,10 @@ module.exports = {
     const { table } = req.params;
     const newRow = filterReqBody(req, table);
 
-    newRow.data_inclusao = nowDate();
-    newRow.data_exclusao = null;
+    console.log(req, table);
+
+    newRow.creationDate = nowDate();
+    newRow.deletionDate = null;
 
     general.createRowInTable(
       newRow,

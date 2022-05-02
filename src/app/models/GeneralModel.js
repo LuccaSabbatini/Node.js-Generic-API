@@ -6,7 +6,7 @@ const { nowDate } = require("../../shared/Util");
 module.exports = {
   async getAllDataFromTable(table, callback, next) {
     try {
-      const data = await db(table).select().where("data_exclusao", null);
+      const data = await db(table).select().where("deletionDate", null);
 
       callback(data);
     } catch (err) {
@@ -18,7 +18,7 @@ module.exports = {
     try {
       const data = await db(table)
         .select()
-        .where({ id: id, data_exclusao: null });
+        .where({ id: id, deletionDate: null });
 
       callback(data);
     } catch (err) {
@@ -31,7 +31,7 @@ module.exports = {
       const data = await db(table)
         .select()
         .where(field, "like", `%${value}%`)
-        .where("data_exclusao", null);
+        .where("deletionDate", null);
 
       callback(data);
     } catch (err) {
@@ -44,11 +44,12 @@ module.exports = {
       const data = await db(table)
         .insert(reqBody)
         .then((res) => {
-          return db(table).select().where({ id: res[0], data_exclusao: null });
+          return db(table).select().where({ id: res[0], deletionDate: null });
         });
 
       callback(data);
     } catch (err) {
+      console.log(err);
       return next(err);
     }
   },
@@ -57,9 +58,9 @@ module.exports = {
     try {
       const data = await db(table)
         .update(reqBody)
-        .where({ id: id, data_exclusao: null })
+        .where({ id: id, deletionDate: null })
         .then(() => {
-          return db(table).select().where({ id: id, data_exclusao: null });
+          return db(table).select().where({ id: id, deletionDate: null });
         });
 
       callback(data);
@@ -71,8 +72,8 @@ module.exports = {
   async deleteRowFromTableByID(table, id, callback, next) {
     try {
       const data = await db(table)
-        .update({ data_exclusao: nowDate() })
-        .where({ id: id, data_exclusao: null });
+        .update({ deletionDate: nowDate() })
+        .where({ id: id, deletionDate: null });
 
       callback(data === 1 ? true : false);
     } catch (err) {

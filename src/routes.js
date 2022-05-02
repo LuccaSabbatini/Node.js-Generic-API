@@ -13,21 +13,9 @@ routes.get(
   "/get/:table/:field/:value",
   GeneralController.getRowFromTableByFieldValue
 );
-routes.post(
-  "/create/:table",
-  AuthenticationMiddleware.authenticateUser,
-  GeneralController.createRowInTable
-);
-routes.put(
-  "/update/:table/:id",
-  AuthenticationMiddleware.authenticateUser,
-  GeneralController.updateRowInTableByID
-);
-routes.delete(
-  "/delete/:table/:id",
-  AuthenticationMiddleware.authenticateUser,
-  GeneralController.deleteRowFromTableByID
-);
+routes.post("/create/:table", GeneralController.createRowInTable);
+routes.put("/update/:table/:id", GeneralController.updateRowInTableByID);
+routes.delete("/delete/:table/:id", GeneralController.deleteRowFromTableByID);
 
 ///// EXPORT /////
 module.exports = routes;
